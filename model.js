@@ -1,10 +1,3 @@
-/**
- * ============================================================
- *  MLB Oracle — Advanced AI Prediction Model
- *  model.js · v1.1.0  —  Updated Sun Apr 12, 2026
- *
- *  Sections
- *  ────────
  *  §1   DATA           – standings, colors, form, run-diff, games
  *  §2   MODEL ENGINE   – Log5, power rating, advancedProb, liveGameProb
  *  §3   SIGNALS        – per-game contextual signal generator
