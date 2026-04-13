@@ -11,21 +11,21 @@
 <body>
 <div class="app">
 
-  <!-- ── HEADER ── -->
+  <!-- HEADER -->
   <div class="header">
     <div class="header-left">
       <h1>⚾ MLB Oracle</h1>
-      <p>ADVANCED AI PREDICTION MODEL · 2026 SEASON · SAT APR 11</p>
+      <p id="headerDate">ADVANCED AI PREDICTION MODEL · 2026 SEASON</p>
     </div>
     <div class="header-right">
-      <span class="hchip live">⬤ <span id="liveCount">6</span> Games Live</span>
+      <span class="hchip live">⬤ <span id="liveCount">0</span> Games Live</span>
       <span class="hchip" id="lastRefreshChip">Updated just now</span>
       <span class="hchip refresh-btn" id="manualRefreshBtn" onclick="manualRefresh()">↺ Refresh</span>
-      <span class="hchip" id="countdownChip">Next refresh: <b id="countdown">60</b>s</span>
+      <span class="hchip">Next refresh: <b id="countdown">60</b>s</span>
     </div>
   </div>
 
-  <!-- ── TABS ── -->
+  <!-- TABS -->
   <div class="tabs">
     <button class="tab active" onclick="showTab('predictions')">🎯 Predictions</button>
     <button class="tab" onclick="showTab('live')">🔴 Live Games</button>
@@ -34,12 +34,8 @@
     <button class="tab" onclick="showTab('accuracy')">📊 Accuracy Log</button>
   </div>
 
-  <!-- ══════════════════════════════════════════
-       TAB: PREDICTIONS
-  ══════════════════════════════════════════ -->
+  <!-- PREDICTIONS TAB -->
   <div class="page active" id="tab-predictions">
-
-    <!-- KPI cards -->
     <div class="kpi-row">
       <div class="kpi" style="--accent-color:var(--accent)">
         <div class="label">Games Today</div>
@@ -48,18 +44,18 @@
       </div>
       <div class="kpi" style="--accent-color:var(--green)">
         <div class="label">Best Edge</div>
-        <div class="val" id="kpi-edge">—%</div>
+        <div class="val" id="kpi-edge">—</div>
         <div class="sub" id="kpi-edge-sub">—</div>
       </div>
       <div class="kpi" style="--accent-color:var(--gold)">
         <div class="label">Avg Confidence</div>
-        <div class="val" id="kpi-avg">—%</div>
+        <div class="val" id="kpi-avg">—</div>
         <div class="sub">across scheduled games</div>
       </div>
       <div class="kpi" style="--accent-color:var(--purple)">
         <div class="label">Strong Picks</div>
         <div class="val" id="kpi-strong">—</div>
-        <div class="sub">&gt;70% model confidence</div>
+        <div class="sub">&gt;70% confidence</div>
       </div>
       <div class="kpi" style="--accent-color:var(--orange)">
         <div class="label">Model Power</div>
@@ -68,7 +64,6 @@
       </div>
     </div>
 
-    <!-- Model factor breakdown -->
     <div class="model-explainer">
       <div class="factor-col">
         <h4><span class="dot" style="background:var(--accent)"></span>Win Probability Factors</h4>
@@ -97,29 +92,25 @@
       </div>
     </div>
 
-    <div class="sh">Today's Predictions — Sat Apr 11</div>
+    <div class="sh" id="sh-today">Today's Predictions</div>
     <div class="games-grid" id="predGames"></div>
 
-    <div class="sh">Tomorrow — Sun Apr 12</div>
+    <div class="sh" id="sh-tomorrow">Tomorrow</div>
     <div class="games-grid" id="sunGames"></div>
 
-    <div class="sh">Monday Preview — Apr 13</div>
+    <div class="sh" id="sh-dayafter">Coming Up</div>
     <div class="games-grid" id="monGames"></div>
   </div>
 
-  <!-- ══════════════════════════════════════════
-       TAB: LIVE GAMES
-  ══════════════════════════════════════════ -->
+  <!-- LIVE TAB -->
   <div class="page" id="tab-live">
     <div class="sh">Live Games — In Progress</div>
     <div class="games-grid" id="liveGamesGrid"></div>
-    <div class="sh">Just Finished — Sat Apr 11</div>
+    <div class="sh" id="sh-finished">Recently Finished</div>
     <div class="games-grid" id="finishedGames"></div>
   </div>
 
-  <!-- ══════════════════════════════════════════
-       TAB: MODEL ENGINE
-  ══════════════════════════════════════════ -->
+  <!-- MODEL TAB -->
   <div class="page" id="tab-model">
     <div class="sh">Power Rankings — All 30 Teams</div>
     <div class="model-panel">
@@ -138,30 +129,23 @@
         <div class="panel-body" id="nlPower"></div>
       </div>
     </div>
-    <div class="sh">Live Game Model Deep Dive</div>
+    <div class="sh">Live Game Deep Dive</div>
     <div id="liveDeepDive"></div>
   </div>
 
-  <!-- ══════════════════════════════════════════
-       TAB: STANDINGS
-  ══════════════════════════════════════════ -->
+  <!-- STANDINGS TAB -->
   <div class="page" id="tab-standings">
-    <div class="sh">
-      2026 MLB Standings with Power Ratings
-      <span style="font-size:10px;font-family:var(--mono);color:var(--muted);font-weight:400;text-transform:none;letter-spacing:0">
-        click column headers to sort
-      </span>
-    </div>
+    <div class="sh">2026 MLB Standings with Power Ratings</div>
     <div class="stand-wrap">
-      <table class="stand-table" id="standTable">
+      <table class="stand-table">
         <thead>
           <tr>
-            <th onclick="sortStand('name')" class="sorted" id="th-name">Team ↕</th>
+            <th onclick="sortStand('name')" class="sorted" id="th-name">Team</th>
             <th onclick="sortStand('w')"       id="th-w">W</th>
             <th onclick="sortStand('l')"       id="th-l">L</th>
             <th onclick="sortStand('pct')"     id="th-pct">PCT</th>
-            <th onclick="sortStand('pwr')"     id="th-pwr">Power ↕</th>
-            <th onclick="sortStand('winprob')" id="th-winprob">Avg Win%</th>
+            <th onclick="sortStand('pwr')"     id="th-pwr">Power</th>
+            <th onclick="sortStand('winprob')" id="th-winprob">Win%</th>
             <th onclick="sortStand('rdiff')"   id="th-rdiff">Run Diff</th>
             <th                                id="th-form">Last 5</th>
             <th onclick="sortStand('streak')"  id="th-streak">Streak</th>
@@ -172,46 +156,38 @@
     </div>
   </div>
 
-  <!-- ══════════════════════════════════════════
-       TAB: ACCURACY LOG
-  ══════════════════════════════════════════ -->
+  <!-- ACCURACY TAB -->
   <div class="page" id="tab-accuracy">
     <div class="kpi-row" style="grid-template-columns:repeat(4,1fr)">
       <div class="kpi" style="--accent-color:var(--green)">
         <div class="label">Overall Accuracy</div>
-        <div class="val">63.2%</div>
-        <div class="sub">18 of 29 correct picks</div>
+        <div class="val" id="acc-overall">—</div>
+        <div class="sub" id="acc-overall-sub">calculating…</div>
       </div>
       <div class="kpi" style="--accent-color:var(--accent)">
         <div class="label">Strong Pick Acc.</div>
-        <div class="val">78.6%</div>
-        <div class="sub">11 of 14 (&gt;70% prob)</div>
+        <div class="val" id="acc-strong">—</div>
+        <div class="sub" id="acc-strong-sub">&gt;70% prob</div>
       </div>
       <div class="kpi" style="--accent-color:var(--gold)">
         <div class="label">Likely Pick Acc.</div>
-        <div class="val">60.0%</div>
-        <div class="sub">6 of 10 (60–70% prob)</div>
+        <div class="val" id="acc-likely">—</div>
+        <div class="sub" id="acc-likely-sub">60–70% prob</div>
       </div>
       <div class="kpi" style="--accent-color:var(--accent2)">
         <div class="label">Toss-Up Acc.</div>
-        <div class="val">20.0%</div>
-        <div class="sub">1 of 5 (&lt;60% prob)</div>
+        <div class="val" id="acc-tossup">—</div>
+        <div class="sub" id="acc-tossup-sub">&lt;60% prob</div>
       </div>
     </div>
-
     <div class="sh">Recent Game Log — Model vs Reality</div>
     <div class="panel-card" style="margin-bottom:28px">
       <div class="panel-body" style="padding:0">
         <table class="acc-table" style="width:100%">
           <thead>
             <tr>
-              <th>Date</th>
-              <th>Matchup</th>
-              <th>Model Pick</th>
-              <th>Prob</th>
-              <th>Confidence</th>
-              <th>Result</th>
-              <th>Correct?</th>
+              <th>Date</th><th>Matchup</th><th>Model Pick</th>
+              <th>Prob</th><th>Confidence</th><th>Result</th><th>Correct?</th>
             </tr>
           </thead>
           <tbody id="accBody"></tbody>
@@ -222,12 +198,10 @@
 
 </div><!-- /app -->
 
-<!-- ── Refresh progress bar (bottom of viewport) ── -->
 <div class="refresh-bar">
   <div class="refresh-fill" id="refreshFill" style="width:100%"></div>
 </div>
 
-<!-- ── JavaScript ── -->
 <script src="js/model.js"></script>
 </body>
 </html>
